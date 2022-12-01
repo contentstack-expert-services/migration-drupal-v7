@@ -1,0 +1,96 @@
+{
+  "data": "./drupalMigrationData",
+  "entryfolder": "entries",
+  "modules": {
+    "locales": {
+      "dirName": "locales",
+      "fileName": "locales.json"
+    },
+    "contentTypes": {
+      "dirName": "content_types",
+      "validKeys": [
+        "title",
+        "uid",
+        "schema",
+        "options",
+        "singleton",
+        "description"
+      ]
+    },
+    "authors": {
+      "dirName": "authors",
+      "fileName": "en-us.json",
+      "masterfile": "authors.json"
+    },
+    "vocabulary": {
+      "dirName": "vocabulary",
+      "fileName": "en-us.json",
+      "masterfile": "vocabulary.json"
+    },
+    "taxonomy": {
+      "dirName": "taxonomy",
+      "fileName": "en-us.json",
+      "masterfile": "taxonomy.json"
+    },
+    "categories": {
+      "dirName": "categories",
+      "fileName": "en-us.json",
+      "masterfile": "categories.json"
+    },
+    "asset": {
+      "dirName": "assets",
+      "fileName": "assets.json",
+      "featuredfileName": "_featured.json",
+      "masterfile": "url_master.json"
+    },
+    "article": {
+      "dirName": "article",
+      "fileName": "en-us.json",
+      "masterfile": "article.json"
+    },
+    "posts": {
+      "dirName": "post",
+      "fileName": "en-us.json",
+      "masterfile": "post.json"
+    },
+    "references": {
+      "dirName": "references",
+      "fileName": "references.json",
+      "masterfile": "references.json"
+    },
+    "entries": {
+      "dirName": "entries",
+      "fileName": "en-us.json",
+      "masterfile": "entries.json"
+    },
+    "query": {
+      "dirName": "query",
+      "fileName": "index.json"
+    }
+  },
+  "base_locale": { "name": "English US", "code": "en-us" },
+  "mysql": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": ""
+  },
+  "base_url": "",
+  "public_path": "",
+  "private_path": "",
+  "drupal_base_url": "",
+  "mysql-query": {
+    "locale": "SELECT languages.language,languages.name FROM `languages`",
+    "taxonomy_term_data": "SELECT a.name, b.name AS title,b.description,b.tid,b.vid,c.parent FROM taxonomy_vocabulary a, taxonomy_term_data b,taxonomy_term_hierarchy c WHERE b.tid = c.tid AND a.vid=b.vid",
+    "taxonomyCount": "SELECT count(b.tid) as taxonomycount FROM taxonomy_vocabulary a, taxonomy_term_data b,taxonomy_term_hierarchy c WHERE b.tid = c.tid AND a.vid=b.vid",
+    "ct_mapped": "SELECT b.field_name,b.bundle AS content_types,CONVERT(b.DATA USING utf8) AS data,CONVERT(c.DATA USING utf8) AS instance_data,c.type FROM field_config_instance b, field_config c WHERE b.field_name = c.field_name and entity_type= 'node'",
+    "fileID": "SELECT * FROM `file_usage`",
+    "assetCount": "SELECT count(a.fid) as assetcount FROM file_managed a",
+    "assets": "SELECT a.fid, a.filename, a.uri, a.filesize, b.count FROM file_managed a, file_usage b GROUP BY(a.fid)",
+    "assetsFID": "SELECT a.fid, a.filename, a.uri, b.id,b.count FROM file_managed a, file_usage b WHERE a.fid IN",
+    "authorCount": "SELECT count(users.uid) as usercount FROM `users` LEFT JOIN file_managed ON file_managed.fid = users.picture",
+    "authors": "SELECT users.uid,name,mail,timezone,picture FROM `users` LEFT JOIN file_managed ON file_managed.fid = users.picture",
+    "vocabulary": "SELECT taxonomy_vocabulary.vid, taxonomy_vocabulary.name AS title, taxonomy_vocabulary.description FROM taxonomy_vocabulary",
+    "vocabularyCount": "SELECT count(taxonomy_vocabulary.vid) as vocabularycount FROM taxonomy_vocabulary"
+  }
+}

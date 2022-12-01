@@ -1,0 +1,24 @@
+{
+  "name": "Drupal-Mysql-Export",
+  "version": "0.0.1",
+  "dependencies": {
+    "@contentstack/json-rte-serializer": "^2.0.0",
+    "async": "^2.1.5",
+    "fs": "0.0.1-security",
+    "jsdom": "^20.0.3",
+    "lodash": "^4.17.2",
+    "mkdirp": "^0.5.1",
+    "mysql": "^2.12.0",
+    "node-async-loop": "^1.2.2",
+    "path": "^0.12.7",
+    "phpunserialize": "^1.2.0",
+    "q": "^1.4.1",
+    "request": "~2.88.0",
+    "url": "^0.11.0",
+    "when": "^3.7.8",
+    "winston": "^2.4.7"
+  },
+  "scripts": {
+    "export": "node app.js"
+  }
+}

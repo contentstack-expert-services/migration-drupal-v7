@@ -1,0 +1,14 @@
+.idea/workspace.xml
+.idea/
+./idea/*
+data/*
+Query/*
+query/*
+node_modules/
+node_modules/*
+libs/utils/logs/
+libs/utils/logs/*
+/drupalMigrationData
+/logs
+package-lock.json
+.DS_Store
