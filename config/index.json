@@ -86,7 +86,7 @@
     "ct_mapped": "SELECT b.field_name,b.bundle AS content_types,CONVERT(b.DATA USING utf8) AS data,CONVERT(c.DATA USING utf8) AS instance_data,c.type FROM field_config_instance b, field_config c WHERE b.field_name = c.field_name and entity_type= 'node'",
     "fileID": "SELECT * FROM `file_usage`",
     "assetCount": "SELECT count(a.fid) as assetcount FROM file_managed a",
-    "assets": "SELECT a.fid, a.filename, a.uri, a.filesize, b.count FROM file_managed a, file_usage b GROUP BY(a.fid)",
+    "assets": "SELECT a.fid, a.filename, a.uri, a.filesize, b.count FROM file_managed a, file_usage b where a.fid=b.fid GROUP BY(a.fid)",
     "assetsFID": "SELECT a.fid, a.filename, a.uri, b.id,b.count FROM file_managed a, file_usage b WHERE a.fid IN",
     "authorCount": "SELECT count(users.uid) as usercount FROM `users` LEFT JOIN file_managed ON file_managed.fid = users.picture",
     "authors": "SELECT users.uid,name,mail,timezone,picture FROM `users` LEFT JOIN file_managed ON file_managed.fid = users.picture",

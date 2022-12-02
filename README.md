@@ -41,7 +41,8 @@ Your files and assets need to be available and accessible through the internet. 
 ```bash
     base_url: http://example_hostname.com,
     public_path: <<public file path>>,
-    private_path: <<private file path>>
+    private_path: <<private file path>>,
+    drupal_base_url: <<mysql database name>> // here add database name
 ```
 
 For example:

@@ -68,11 +68,6 @@ ExtractContentTypes.prototype = {
         for (var i = 0; i < rows.length; i++) {
           var conv_details = phpUnserialize(rows[i].data);
           var instance_data = phpUnserialize(rows[i].instance_data);
-          // console.log(
-          //   "==============================\n",
-          //   conv_details?.label,
-          //   conv_details?.widget?.type
-          // );
 
           details_data.push({
             field_label: conv_details?.label,

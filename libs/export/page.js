@@ -28,7 +28,6 @@ function ExtractPosts() {
 let dropDownData = [];
 let textData = [];
 let dropDownValue = {};
-let textValue = {};
 
 ExtractPosts.prototype = {
   putPosts: function (postsdetails, key) {

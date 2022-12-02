@@ -1,14 +1,14 @@
 var sequence = require("when/sequence");
+
 global.config = require("./config");
-// global.querypageconfig = require('./query');
 global.errorLogger = require("./libs/utils/logger.js")("error").error;
 global.successLogger = require("./libs/utils/logger.js")("success").log;
 global.warnLogger = require("./libs/utils/logger.js")("warn").log;
 
-// var modulesList = ['query','contentTypes','vocabulary','assets','authors','taxonomy','page'];
 var modulesList = [
+  "connection",
   "query",
-  //   "locales",
+  // //   "locales",
   "assets",
   "vocabulary",
   "references",
@@ -42,7 +42,6 @@ taskResults
     successLogger(
       "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nData exporting has been completed"
     );
-    // await StackCloneCommand.run(); // to run to fetch stack from CS
   })
   .catch(function (error) {
     errorLogger(error);

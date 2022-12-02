@@ -51,18 +51,9 @@ function ExtractAssets() {
 }
 
 ExtractAssets.prototype = {
-  saveAsset: function (assets, value, database) {
+  saveAsset: function (assets, value, url) {
     var self = this;
     return when.promise(function (resolve, reject) {
-      var url = assets["uri"];
-
-      let replaceValue =
-        config.base_url + config.drupal_base_url + config.public_path;
-      if (!url.startsWith("http")) {
-        url = url.replace("public://", replaceValue);
-        url = url.replace("private://", replaceValue);
-      }
-
       var name = assets["filename"];
       url = encodeURI(url);
       if (
@@ -169,7 +160,7 @@ ExtractAssets.prototype = {
       }
     });
   },
-  retryFailedAssets: function (assetids, database) {
+  retryFailedAssets: function (assetids) {
     var self = this;
     return when.promise(function (resolve, reject) {
       if (assetids.length > 0) {
@@ -186,7 +177,17 @@ ExtractAssets.prototype = {
                 _getAsset.push(
                   (function (data) {
                     return function () {
-                      return self.saveAsset(data, 0, database);
+                      var url = data["uri"];
+
+                      let replaceValue =
+                        config.base_url +
+                        config.drupal_base_url +
+                        config.public_path;
+                      if (!url.startsWith("http")) {
+                        url = url.replace("public://", replaceValue);
+                        url = url.replace("private://", replaceValue);
+                      }
+                      return self.saveAsset(data, 0, url);
                     };
                   })(rows[i])
                 );
@@ -234,7 +235,7 @@ ExtractAssets.prototype = {
       }
     });
   },
-  getAllAssets: function (skip, database, assetCount) {
+  getAllAssets: function (skip) {
     var self = this;
     return when.promise(function (resolve, reject) {
       var query = config["mysql-query"]["assets"];
@@ -248,7 +249,15 @@ ExtractAssets.prototype = {
               _getAsset.push(
                 (function (data) {
                   return function () {
-                    return self.saveAsset(data, 0, database);
+                    var url = data["uri"];
+
+                    let replaceValue = config.base_url + config.public_path;
+                    if (!url.startsWith("http")) {
+                      url = url.replace("public://", replaceValue);
+                      url = url.replace("private://", replaceValue);
+                    }
+
+                    return self.saveAsset(data, 0, url);
                   };
                 })(rows[i])
               );
@@ -271,7 +280,7 @@ ExtractAssets.prototype = {
                   JSON.stringify(assetURLMapping, null, 4)
                 );
                 if (failedAssets.length > 0) {
-                  self.retryFailedAssets(failedAssets, database);
+                  self.retryFailedAssets(failedAssets);
                 }
                 resolve(results);
               })
@@ -290,7 +299,7 @@ ExtractAssets.prototype = {
       });
     });
   },
-  getAssetCount: function (assetcount, database) {
+  getAssetCount: function (assetcount) {
     var self = this;
     return when.promise(function (resolve, reject) {
       var _getAssets = [];
@@ -298,7 +307,7 @@ ExtractAssets.prototype = {
         _getAssets.push(
           (function (data) {
             return function () {
-              return self.getAllAssets(data, database, assetcount);
+              return self.getAllAssets(data);
             };
           })(i)
         );
@@ -321,8 +330,8 @@ ExtractAssets.prototype = {
         });
     });
   },
-  start: function (database) {
-    // successLogger("exporting assets...", database);
+  start: function () {
+    // successLogger("exporting assets...");
     var self = this;
 
     return when.promise(function (resolve, reject) {
@@ -333,7 +342,7 @@ ExtractAssets.prototype = {
           var assetcount = rows[0].assetcount;
           if (assetcount > 0) {
             self
-              .getAssetCount(assetcount, database)
+              .getAssetCount(assetcount)
               .then(function () {
                 self.connection.end();
                 resolve();
