@@ -334,7 +334,6 @@ ExtractAssets.prototype = {
   },
   start: function () {
     var self = this;
-    console.log("here checking");
     return when.promise(function (resolve, reject) {
       var query = config["mysql-query"]["assetCount"];
 
