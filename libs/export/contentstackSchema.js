@@ -288,7 +288,7 @@ function dropdownString(data) {
     display_type: "dropdown",
     enum: { advanced: true, choices: choices },
     multiple: false,
-    uid: `${data["field_name"]}_value`,
+    uid: data["field_name"],
     field_metadata: {
       description: data.description,
       default_value: data?.default_value ?? "",
