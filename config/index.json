@@ -70,15 +70,16 @@
   },
   "base_locale": { "name": "English US", "code": "en-us" },
   "mysql": {
-    "host": "",
-    "user": "",
+    "host": "localhost",
+    "user": "root",
     "password": "",
-    "database": ""
+    "database": "drupal7"
   },
-  "base_url": "",
-  "public_path": "",
+  "country_name": "",
+  "base_url": "http://localhost/",
+  "public_path": "/sites/default/files/",
   "private_path": "",
-  "drupal_base_url": "",
+  "drupal_base_url": "drupal7",
   "mysql-query": {
     "locale": "SELECT languages.language,languages.name FROM `languages`",
     "taxonomy_term_data": "SELECT a.name, b.name AS title,b.description,b.tid,b.vid,c.parent FROM taxonomy_vocabulary a, taxonomy_term_data b,taxonomy_term_hierarchy c WHERE b.tid = c.tid AND a.vid=b.vid",
