@@ -178,7 +178,10 @@ ExtractAssets.prototype = {
                     return function () {
                       var url = data["uri"];
 
-                      let replaceValue = config.base_url + config.public_path;
+                      let replaceValue =
+                        config.base_url +
+                        config.drupal_base_url +
+                        config.public_path;
                       if (!url.startsWith("http")) {
                         url = url.replace("public://", replaceValue);
                         url = url.replace("private://", replaceValue);
@@ -247,7 +250,10 @@ ExtractAssets.prototype = {
                   return function () {
                     var url = data["uri"];
 
-                    let replaceValue = config.base_url + config.public_path;
+                    let replaceValue =
+                      config.base_url +
+                      config.drupal_base_url +
+                      +config.public_path;
                     if (!url.startsWith("http")) {
                       url = url.replace("public://", replaceValue);
                       url = url.replace("private://", replaceValue);
@@ -267,7 +273,6 @@ ExtractAssets.prototype = {
                   path.join(assetFolderPath, assetConfig.fileName),
                   JSON.stringify(assetData, null, 4)
                 );
-
                 helper.writeFile(
                   path.join(assetmasterFolderPath, assetConfig.fileName),
                   JSON.stringify(assetMapping, null, 4)
@@ -328,9 +333,8 @@ ExtractAssets.prototype = {
     });
   },
   start: function () {
-    // successLogger("exporting assets...");
     var self = this;
-
+    console.log("here checking");
     return when.promise(function (resolve, reject) {
       var query = config["mysql-query"]["assetCount"];
 
