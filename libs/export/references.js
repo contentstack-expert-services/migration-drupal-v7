@@ -39,7 +39,9 @@ ExtractPosts.prototype = {
       var referenceData = helper.readFile(
         path.join(
           process.cwd(),
-          "/drupalMigrationData/references/references.json"
+          "drupalMigrationData",
+          "references",
+          "references.json"
         )
       );
 
@@ -51,7 +53,9 @@ ExtractPosts.prototype = {
         helper.writeFile(
           path.join(
             process.cwd(),
-            "/drupalMigrationData/references/references.json"
+            "drupalMigrationData",
+            "references",
+            "references.json"
           ),
           JSON.stringify(referenceData, null, 4)
         );
@@ -143,7 +147,7 @@ ExtractPosts.prototype = {
     var self = this;
     return when.promise(function (resolve, reject) {
       var queryPageConfig = helper.readFile(
-        path.join(process.cwd(), "/drupalMigrationData/query/index.json")
+        path.join(process.cwd(), "drupalMigrationData", "query", "index.json")
       );
       var pagequery = queryPageConfig.page;
       var _getPage = [];

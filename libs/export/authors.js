@@ -42,7 +42,7 @@ ExtractAuthors.prototype = {
       );
 
       let assetId = helper.readFile(
-        path.join(process.cwd(), "drupalMigrationData/assets/assets.json")
+        path.join(process.cwd(), "drupalMigrationData", "assets", "assets.json")
       );
 
       authordetails.map(function (data) {

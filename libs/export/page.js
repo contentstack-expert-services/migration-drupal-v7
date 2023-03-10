@@ -44,24 +44,31 @@ ExtractPosts.prototype = {
       var isoDate = new Date();
       var contentTypeQuery = config["mysql-query"]["ct_mapped"];
       let assetId = helper.readFile(
-        path.join(process.cwd(), "drupalMigrationData/assets/assets.json")
+        path.join(process.cwd(), "drupalMigrationData", "assets", "assets.json")
       );
       let referenceId = helper.readFile(
         path.join(
           process.cwd(),
-          "drupalMigrationData/references/references.json"
+          "drupalMigrationData",
+          "references",
+          "references.json"
         )
       );
       let taxonomyId = helper.readFile(
         path.join(
           process.cwd(),
-          "drupalMigrationData/entries/taxonomy/en-us.json"
+          "drupalMigrationData",
+          "entries",
+          "taxonomy/en-us.json"
         )
       );
       let vocabularyId = helper.readFile(
         path.join(
           process.cwd(),
-          "drupalMigrationData/entries/vocabulary/en-us.json"
+          "drupalMigrationData",
+          "entries",
+          "vocabulary",
+          "en-us.json"
         )
       );
       self.connection.query(contentTypeQuery, function (error, rows, fields) {
@@ -237,7 +244,12 @@ ExtractPosts.prototype = {
                   `${value}`.length >= 10 &&
                   /^\d(.*\d)?$/.test(value)
                 ) {
-                  data[dataKey] = isoDate.toISOString(value);
+                  if (typeof value === "number") {
+                    const unixDate = new Date(value * 1000).toISOString();
+                    data[dataKey] = unixDate;
+                  } else {
+                    data[dataKey] = isoDate.toISOString(value);
+                  }
                 }
               }
 
@@ -411,12 +423,11 @@ ExtractPosts.prototype = {
       });
     });
   },
-  getPageCount: function (pagename, countentry, queryPageConfig) {
+  getPageCount: function (pagename, queryPageConfig) {
     var self = this;
     return when.promise(function (resolve, reject) {
       var _getPage = [];
-
-      for (var i = 0, total = countentry; i < total; i += limit) {
+      for (var i = 0, total = 1; i < total; i += limit) {
         _getPage.push(
           (function (data) {
             return function () {
@@ -437,51 +448,27 @@ ExtractPosts.prototype = {
             "something wrong while exporting entries" + pagename + ":",
             e
           );
+          self.connection.end();
           reject(e);
         });
     });
   },
-  getPageCountQuery: function (pagename, queryPageConfig) {
+
+  start: function () {
+    successLogger("Exporting entries...");
     var self = this;
-    return when.promise(function (resolve, reject) {
-      var query = queryPageConfig["count"]["" + pagename + "Count"];
-      self.connection.query(query, function (error, rows, fields) {
-        if (!error) {
-          var countentry = rows[0]["countentry"];
-          if (countentry > 0) {
-            self
-              .getPageCount(pagename, countentry, queryPageConfig)
-              .then(function () {
-                resolve();
-              })
-              .catch(function () {
-                reject();
-              });
-          } else {
-            errorLogger("no entries found for " + pagename + " ...");
-            resolve();
-          }
-        } else {
-          errorLogger("failed to get " + pagename + " count: ", error);
-          reject(error);
-        }
-      });
-    });
-  },
-  getAllPosts: function () {
-    var self = this;
+
     return when.promise(function (resolve, reject) {
       var queryPageConfig = helper.readFile(
-        path.join(process.cwd(), "/drupalMigrationData/query/index.json")
+        path.join(process.cwd(), "drupalMigrationData", "query", "index.json")
       );
       var pagequery = queryPageConfig.page;
       var _getPage = [];
-
       for (var key in pagequery) {
         _getPage.push(
           (function (key) {
             return function () {
-              return self.getPageCountQuery(key, queryPageConfig);
+              return self.getPageCount(key, queryPageConfig);
             };
           })(key)
         );
@@ -497,22 +484,8 @@ ExtractPosts.prototype = {
             "something wrong while exporting entries " + key + ": ",
             e
           );
+          self.connection.end();
           reject(e);
-        });
-    });
-  },
-  start: function () {
-    successLogger("Exporting entries...");
-    var self = this;
-
-    return when.promise(function (resolve, reject) {
-      self
-        .getAllPosts()
-        .then(function () {
-          resolve();
-        })
-        .catch(function () {
-          reject();
         });
     });
   },

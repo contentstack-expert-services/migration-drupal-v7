@@ -8,7 +8,6 @@ global.warnLogger = require("./libs/utils/logger.js")("warn").log;
 var modulesList = [
   "connection",
   "query",
-  "assets_baseUrl",
   "assets",
   "vocabulary",
   "references",

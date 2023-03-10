@@ -124,7 +124,12 @@ Extractfield.prototype = {
               count: countQuery,
             };
             helper.writeFile(
-              path.join(process.cwd(), "drupalMigrationData/query/index.json"),
+              path.join(
+                process.cwd(),
+                "drupalMigrationData",
+                "query",
+                "index.json"
+              ),
               JSON.stringify(main, null, 4)
             );
           })
