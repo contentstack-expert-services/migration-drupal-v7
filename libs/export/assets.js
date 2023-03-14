@@ -103,7 +103,6 @@ ExtractAssets.prototype = {
             "got downloaded successfully."
           );
         } catch (error) {
-          console.log("error", error);
           if (failedAssets.indexOf(`assets_${assets["fid"]}`) == -1) {
             self.retryFailedAssets(assets["fid"]);
           }

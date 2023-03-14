@@ -144,6 +144,7 @@ ExtractPosts.prototype = {
 
   start: function () {
     var self = this;
+    successLogger("Exporting references...");
 
     return when.promise(function (resolve, reject) {
       var queryPageConfig = helper.readFile(

@@ -39,6 +39,8 @@ function ExtractContentTypes() {
 }
 ExtractContentTypes.prototype = {
   start: function () {
+    successLogger("Exporting content-types...");
+
     var self = this;
     return when.promise(function (resolve, reject) {
       self
