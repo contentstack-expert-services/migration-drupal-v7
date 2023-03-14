@@ -3,14 +3,12 @@
  */
 var mkdirp = require("mkdirp"),
   path = require("path"),
-  _ = require("lodash"),
   fs = require("fs"),
   when = require("when"),
   guard = require("when/guard"),
   parallel = require("when/parallel"),
   sequence = require("when/sequence"),
-  limit = 3,
-  phpUnserialize = require("phpunserialize");
+  limit = 3;
 /**
  * Internal module Dependencies.
  */
@@ -143,8 +141,10 @@ ExtractPosts.prototype = {
       });
     });
   },
-  getAllPosts: function () {
+
+  start: function () {
     var self = this;
+
     return when.promise(function (resolve, reject) {
       var queryPageConfig = helper.readFile(
         path.join(process.cwd(), "drupalMigrationData", "query", "index.json")
@@ -173,20 +173,6 @@ ExtractPosts.prototype = {
             e
           );
           reject(e);
-        });
-    });
-  },
-  start: function () {
-    var self = this;
-
-    return when.promise(function (resolve, reject) {
-      self
-        .getAllPosts()
-        .then(function () {
-          resolve();
-        })
-        .catch(function () {
-          reject();
         });
     });
   },

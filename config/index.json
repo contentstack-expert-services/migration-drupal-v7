@@ -32,11 +32,6 @@
       "fileName": "en-us.json",
       "masterfile": "taxonomy.json"
     },
-    "categories": {
-      "dirName": "categories",
-      "fileName": "en-us.json",
-      "masterfile": "categories.json"
-    },
     "asset": {
       "dirName": "assets",
       "fileName": "assets.json",
@@ -47,11 +42,6 @@
       "dirName": "article",
       "fileName": "en-us.json",
       "masterfile": "article.json"
-    },
-    "posts": {
-      "dirName": "post",
-      "fileName": "en-us.json",
-      "masterfile": "post.json"
     },
     "references": {
       "dirName": "references",

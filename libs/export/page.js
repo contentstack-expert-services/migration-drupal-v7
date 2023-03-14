@@ -11,6 +11,8 @@ var mkdirp = require("mkdirp"),
   sequence = require("when/sequence"),
   limit = 3,
   phpUnserialize = require("phpunserialize");
+
+const chalk = require("chalk");
 /**
  * Internal module Dependencies.
  */
@@ -407,13 +409,17 @@ ExtractPosts.prototype = {
             self
               .putPosts(rows, pagename)
               .then(function (results) {
+                console.log(
+                  "Exporting entries for",
+                  chalk.green(`${pagename}`)
+                );
                 resolve(results);
               })
               .catch(function () {
                 reject();
               });
           } else {
-            errorLogger("no entries found");
+            console.log("no entries found for", chalk.red.bold(`${pagename}`));
             resolve();
           }
         } else {

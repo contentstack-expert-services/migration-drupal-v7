@@ -8,6 +8,7 @@ var mkdirp = require("mkdirp"),
   when = require("when"),
   phpUnserialize = require("phpunserialize");
 
+const chalk = require("chalk");
 /**
  * Internal module Dependencies.
  */
@@ -34,9 +35,6 @@ if (!fs.existsSync(contentTypesFolderPath)) {
 const { drupalMapper } = require("./contentstackMapper");
 
 function ExtractContentTypes() {
-  this.master = {};
-  this.priority = [];
-  this.cycle = [];
   this.connection = helper.connect();
 }
 ExtractContentTypes.prototype = {
@@ -176,8 +174,10 @@ ExtractContentTypes.prototype = {
           path.join(contentTypesFolderPath, contentType["uid"] + ".json"),
           JSON.stringify(contentType, null, 4)
         );
-        successLogger(
-          "ContentType " + contentType["uid"] + " successfully migrated"
+        console.log(
+          "ContentType",
+          chalk.green(`${contentType["uid"]}`),
+          "created successfully"
         );
 
         resolve();

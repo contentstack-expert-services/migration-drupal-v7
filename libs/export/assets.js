@@ -35,12 +35,7 @@ if (!fs.existsSync(assetFolderPath)) {
 var assetData = helper.readFile(
   path.join(assetFolderPath, assetConfig.fileName)
 );
-var assetMapping = helper.readFile(
-  path.join(masterFolderPath, assetConfig.fileName)
-);
-var assetURLMapping = helper.readFile(
-  path.join(masterFolderPath, assetConfig.masterfile)
-);
+
 var failedAssets = [];
 
 function ExtractAssets() {
@@ -48,16 +43,17 @@ function ExtractAssets() {
 }
 
 ExtractAssets.prototype = {
-  saveAsset: function (assets, value) {
+  saveAsset: function (assets) {
     var self = this;
     return when.promise(async function (resolve, reject) {
       var url = assets["uri"];
-
+      // console.log(url);
       let replaceValue = config.base_url + config.public_path;
       if (!url.startsWith("http")) {
         url = url.replace("public://", replaceValue);
         url = url.replace("private://", replaceValue);
       }
+      // console.log(url);
       var name = assets["filename"];
       url = encodeURI(url);
 
@@ -92,8 +88,6 @@ ExtractAssets.prototype = {
             publish_details: [],
           };
 
-          assetMapping[`assets_${assets["fid"]}`] = "";
-          assetURLMapping[url] = "";
           if (failedJSON[`assets_${assets["fid"]}`]) {
             delete failedJSON[`assets_${assets["fid"]}`];
           }
@@ -109,6 +103,7 @@ ExtractAssets.prototype = {
             "got downloaded successfully."
           );
         } catch (error) {
+          console.log("error", error);
           if (failedAssets.indexOf(`assets_${assets["fid"]}`) == -1) {
             self.retryFailedAssets(assets["fid"]);
           }
@@ -166,14 +161,7 @@ ExtractAssets.prototype = {
                     path.join(assetFolderPath, assetConfig.fileName),
                     JSON.stringify(assetData, null, 4)
                   );
-                  helper.writeFile(
-                    path.join(assetmasterFolderPath, assetConfig.fileName),
-                    JSON.stringify(assetMapping, null, 4)
-                  );
-                  helper.writeFile(
-                    path.join(assetmasterFolderPath, assetConfig.masterfile),
-                    JSON.stringify(assetURLMapping, null, 4)
-                  );
+
                   helper.writeFile(
                     path.join(assetmasterFolderPath, "failed.json"),
                     JSON.stringify(failedJSON, null, 4)
@@ -231,14 +219,7 @@ ExtractAssets.prototype = {
                   path.join(assetFolderPath, assetConfig.fileName),
                   JSON.stringify(assetData, null, 4)
                 );
-                helper.writeFile(
-                  path.join(assetmasterFolderPath, assetConfig.fileName),
-                  JSON.stringify(assetMapping, null, 4)
-                );
-                helper.writeFile(
-                  path.join(assetmasterFolderPath, assetConfig.masterfile),
-                  JSON.stringify(assetURLMapping, null, 4)
-                );
+
                 if (failedAssets.length > 0) {
                   self.retryFailedAssets(failedAssets);
                 }
