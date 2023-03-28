@@ -20,34 +20,6 @@ const { JSDOM } = require("jsdom");
 const { htmlToJson } = require("@contentstack/json-rte-serializer");
 
 var helper = require("../../libs/utils/helper.js");
-let assetId = helper.readFile(
-  path.join(process.cwd(), "drupalMigrationData", "assets", "assets.json")
-);
-let referenceId = helper.readFile(
-  path.join(
-    process.cwd(),
-    "drupalMigrationData",
-    "references",
-    "references.json"
-  )
-);
-let taxonomyId = helper.readFile(
-  path.join(
-    process.cwd(),
-    "drupalMigrationData",
-    "entries",
-    "taxonomy/en-us.json"
-  )
-);
-let vocabularyId = helper.readFile(
-  path.join(
-    process.cwd(),
-    "drupalMigrationData",
-    "entries",
-    "vocabulary",
-    "en-us.json"
-  )
-);
 
 var entriesConfig = config.modules.entries,
   entriesFolderPath = path.resolve(config.data, entriesConfig.dirName);
@@ -67,6 +39,36 @@ ExtractPosts.prototype = {
       mkdirp.sync(folderpath);
       helper.writeFile(path.join(folderpath, "en-us.json"));
     }
+
+    let assetId = helper.readFile(
+      path.join(process.cwd(), "drupalMigrationData", "assets", "assets.json")
+    );
+    let referenceId = helper.readFile(
+      path.join(
+        process.cwd(),
+        "drupalMigrationData",
+        "references",
+        "references.json"
+      )
+    );
+    let taxonomyId = helper.readFile(
+      path.join(
+        process.cwd(),
+        "drupalMigrationData",
+        "entries",
+        "taxonomy/en-us.json"
+      )
+    );
+    let vocabularyId = helper.readFile(
+      path.join(
+        process.cwd(),
+        "drupalMigrationData",
+        "entries",
+        "vocabulary",
+        "en-us.json"
+      )
+    );
+
     var contenttype = helper.readFile(path.join(folderpath, "en-us.json"));
 
     return when.promise(function (resolve, reject) {
