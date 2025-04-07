@@ -68,7 +68,7 @@ Run the command given below to export all the modules:
 
 ## Create a new stack in your organization in contentstack.
 
-You have to create a new stack in your Contentstack organization. This stack will be used for migrating the data from Drupal to Contentstack.
+You have to create a new stack in your Contentstack organization. This stack will be used to migrate the data from Drupal to Contentstack.
 
 ---
 
